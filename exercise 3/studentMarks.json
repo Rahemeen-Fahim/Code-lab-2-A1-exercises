@@ -1,0 +1,84 @@
+{
+    "students": [
+        {
+            "number": "1345",
+            "name": "John Curry",
+            "cw1": 8,
+            "cw2": 15,
+            "cw3": 7,
+            "exam": 45
+        },
+        {
+            "number": "2345",
+            "name": "Sam Sturtivant",
+            "cw1": 14,
+            "cw2": 15,
+            "cw3": 14,
+            "exam": 77
+        },
+        {
+            "number": "9876",
+            "name": "Lee Scott",
+            "cw1": 17,
+            "cw2": 11,
+            "cw3": 16,
+            "exam": 99
+        },
+        {
+            "number": "3724",
+            "name": "Matt Thompson",
+            "cw1": 19,
+            "cw2": 11,
+            "cw3": 15,
+            "exam": 81
+        },
+        {
+            "number": "1212",
+            "name": "Ron Herrema",
+            "cw1": 14,
+            "cw2": 17,
+            "cw3": 18,
+            "exam": 66
+        },
+        {
+            "number": "8439",
+            "name": "Jake Hobbs",
+            "cw1": 10,
+            "cw2": 11,
+            "cw3": 10,
+            "exam": 43
+        },
+        {
+            "number": "2344",
+            "name": "Jo Hyde",
+            "cw1": 6,
+            "cw2": 15,
+            "cw3": 10,
+            "exam": 55
+        },
+        {
+            "number": "9384",
+            "name": "Gareth Southgate",
+            "cw1": 5,
+            "cw2": 6,
+            "cw3": 8,
+            "exam": 33
+        },
+        {
+            "number": "8327",
+            "name": "Alan Shearer",
+            "cw1": 20,
+            "cw2": 20,
+            "cw3": 20,
+            "exam": 100
+        },
+        {
+            "number": "2983",
+            "name": "Les Ferdinand",
+            "cw1": 15,
+            "cw2": 17,
+            "cw3": 18,
+            "exam": 92
+        }
+    ]
+}
