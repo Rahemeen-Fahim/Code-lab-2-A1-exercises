@@ -406,15 +406,15 @@ def show_frame(frame_box):
     stage_canvas.tag_raise(screen_windows[frame_box])
 
 
-def random_int(low, high):
+def randomInt(low, high):
     return random.randint(low, high)
 
 
-def decide_operation():
+def decideOperation():
     return random.choice(["+", "-"])
 
 
-def display_menu():
+def displayMenu():
     show_frame(menu_box)
 
 
@@ -427,7 +427,7 @@ def start_quiz(level_name, low, high):
     difficulty_level = level_name
     minimum_value = low
     maximum_value = high
-    display_problem()
+    displayProblem()
 
 
 def update_progress_bar(current_question):
@@ -447,12 +447,12 @@ def set_equation_display(num_a, op_symbol, num_b):
     equation_tail_label.config(text="=  ?")
 
 
-def display_problem():
+def displayProblem():
     global correct_answer, question_number, attempts, answer_locked, hint_used
     global first_number, second_number, current_operation
 
     if question_number == 10:
-        display_results()
+        displayResults()
         return
 
     stop_effects()
@@ -460,9 +460,9 @@ def display_problem():
     hint_used = False
     answer_locked = False
 
-    first_number = random_int(minimum_value, maximum_value)
-    second_number = random_int(minimum_value, maximum_value)
-    current_operation = decide_operation()
+    first_number = randomInt(minimum_value, maximum_value)
+    second_number = randomInt(minimum_value, maximum_value)
+    current_operation = decideOperation()
 
     correct_answer = (first_number + second_number) if current_operation == "+" else (first_number - second_number)
     question_number += 1
@@ -500,7 +500,7 @@ def show_hint():
     feedback_banner.config(text=tip_text, bg=CARD_ALT, fg=LAV_DARK)
 
 
-def check_answer():
+def isCorrect():
     global score, streak, attempts, answer_locked
 
     if answer_locked or active_screen is not quiz_box:
@@ -540,7 +540,7 @@ def check_answer():
         else:
             sparkles_label.config(text="🎀  ✦  ♡  ✦  🎀", font=(FONT_DISPLAY, 16, "bold"), fg=ROSE_DARK)
 
-        root.after(1350, display_problem)
+        root.after(1350, displayProblem)
 
     else:
         attempts += 1
@@ -566,7 +566,7 @@ def check_answer():
                 bg=ERROR_BG,
                 fg=ERROR_FG,
             )
-            root.after(1650, display_problem)
+            root.after(1650, displayProblem)
 
 
 def animate_score_counter(target_score, current_score=0):
@@ -578,7 +578,7 @@ def animate_score_counter(target_score, current_score=0):
         score_counter_timer = root.after(30, lambda: animate_score_counter(target_score, next_val))
 
 
-def display_results():
+def displayResults():
     show_frame(result_box)
 
     if score >= 90:
@@ -613,7 +613,7 @@ def display_results():
 
 
 def play_again():
-    display_menu()
+    displayMenu()
 
 
 # ---------------- WELCOME SCREEN ----------------
@@ -686,7 +686,7 @@ make_sketch_button(
     width=30,
     pady=14,
     font_size=15,
-    command=display_menu,
+    command=displayMenu,
 ).pack()
 
 
@@ -967,7 +967,7 @@ make_sketch_button(
     width=28,
     pady=12,
     font_size=14,
-    command=check_answer,
+    command=isCorrect,
 ).pack()
 
 feedback_banner = tk.Label(
@@ -983,7 +983,7 @@ feedback_banner = tk.Label(
 )
 feedback_banner.pack(pady=(14, 0))
 
-root.bind("<Return>", lambda _event: check_answer())
+root.bind("<Return>", lambda _event: isCorrect())
 
 
 # ---------------- RESULTS SCREEN ----------------
