@@ -428,7 +428,7 @@ def display_summary():
         # Allow all four cards to share the available width equally.
         cards_frame.grid_columnconfigure(i, weight=1)
 
-    output.insert(END, "\n\n")
+    output.insert(END, "\n")
 
 
 # Home page
@@ -522,16 +522,16 @@ def home():
         cards.grid_columnconfigure(i, weight=1)
 
     # Display a short overview explaining the main features of the application.
-    output.insert(END, "\n\n")
+    output.insert(END, "")
     output.insert(END, "Quick Overview\n", "overview_heading")
-    output.insert(END, "Welcome to your Student Records Manager!\n\n")
-    output.insert(END, "Use the navigation menu to manage academic records.\n")
-    output.insert(END, "• View all student information and marks.\n")
-    output.insert(END, "• Search for an individual student.\n")
-    output.insert(END, "• Compare the highest and lowest marks.\n")
-    output.insert(END, "• Sort students by their overall performance.\n")
-    output.insert(END, "• Add, update and delete student records.\n\n")
-    output.insert(END, "Select an option from the left menu to get started.")
+    output.insert(END, "Welcome to your Student Records Manager!\n", "welcome_text")
+    output.insert(END, "Use the navigation menu to manage academic records.\n", "body_text")
+    output.insert(END, "• View all student information and marks.\n", "body_text")
+    output.insert(END, "• Search for an individual student.\n", "body_text")
+    output.insert(END, "• Compare the highest and lowest marks.\n", "body_text")
+    output.insert(END, "• Sort students by their overall performance.\n", "body_text")
+    output.insert(END, "• Add, update and delete student records.\n", "body_text")
+    output.insert(END, "Select an option from the left menu to get started.", "welcome_text")
 
 
 # View all student records
@@ -2013,8 +2013,8 @@ output.tag_configure(
     "overview_heading",
     font=("Arial", 13, "bold"),
     foreground=NAVY,
-    spacing1=10,
-    spacing3=10
+    spacing1=2,
+    spacing3=2
 )
 
 # Set the style for section headings displayed above student results.
@@ -2026,6 +2026,17 @@ output.tag_configure(
     spacing3=8
 )
 
+output.tag_configure(
+    "welcome_text",
+    font=("Arial", 10, "bold"),
+    foreground="#4B3F72"
+)
+
+output.tag_configure(
+    "body_text",
+    font=("Tahoma", 9),
+    foreground="#555555"
+)
 
 # Scrollbars for the records table
 
