@@ -752,33 +752,32 @@ def show_sorted(order):
         output.insert(END, "No student records available.")
         return
 
-    # Sort the students by their total marks from lowest to highest.
+    # Sort the students alphabetically from A to Z.
     if order == "ascending":
 
         sorted_students = sorted(
             students,
-            key=lambda student: calculate_results(student)[1]
+            key=lambda student: student[1].lower()
         )
 
         output.insert(
             END,
-            "STUDENTS: LOWEST TO HIGHEST\n\n",
+            "STUDENTS: A TO Z\n\n",
             "section_heading"
         )
 
     else:
 
-        # Sort the students by their total marks from highest to lowest.
-        # reverse=True changes the order from ascending to descending.
+        # Sort the students alphabetically from Z to A.
         sorted_students = sorted(
             students,
-            key=lambda student: calculate_results(student)[1],
+            key=lambda student: student[1].lower(),
             reverse=True
         )
 
         output.insert(
             END,
-            "STUDENTS: HIGHEST TO LOWEST\n\n",
+            "STUDENTS: Z TO A\n\n",
             "section_heading"
         )
 
