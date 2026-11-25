@@ -8,7 +8,7 @@ import pygame
 
 # Get the folder where this Python file is saved
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-pygame.mixer.init()
+pygame.mixer.init() # Initialise the Pygame mixer to play sound effects
 # Load the laughing sound effect.
 laugh_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "laugh.mp3"))
 
@@ -21,7 +21,7 @@ current_joke = None
 joke_counter = 0
 
 def load_jokes():
-    """Read all jokes from jokes.json."""
+    #Read all jokes from jokes.json.
     # Open the JSON file in read mode
     with open(JOKES_JSON, "r", encoding="utf-8") as file:
         jokes = json.load(file)
@@ -45,9 +45,9 @@ CORAL_BG = "#FFE3E3"
 CORAL_FG = "#9B2C2C"
 
 
-def show_frame(target):
-    """Hide all frames and show only the selected one."""
+def show_frame(target): #Hide all frames and show only the selected one.
 
+# Hide both screens before displaying the selected screen
     joke_frame.pack_forget()
     cart_frame.pack_forget()
     target.pack(fill="both", expand=True)
@@ -56,23 +56,21 @@ def show_frame(target):
     if target == cart_frame:
         refresh_cart()
 
-def update_fav_button():
-    """Update the favourite button and cart count."""
+def update_fav_button():#Update the favourite button and cart count.
 
-    if current_joke and current_joke in favourites:
+    if current_joke and current_joke in favourites: # Check whether the current joke is already saved
         fav_btn.config(text="♥ Favourited", bg=GOLD_BG, fg=GOLD_FG)
     else:
         fav_btn.config(text="♡ Add Favourite", bg=SURFACE, fg=LIGHT_INK)
-
+# Update the number displayed on the Favourite Cart button
     open_cart_btn.config(text=f"Favourite Cart ({len(favourites)})")
 
 
-def tell_joke():
-    """Pick a random joke and show its setup."""
+def tell_joke():#Pick a random joke and show its setup.
 
     global current_joke, joke_counter
 
-    if not jokes:
+    if not jokes: # Check that there are jokes available
         return
 
     # Avoid showing the same joke twice in a row
@@ -80,79 +78,81 @@ def tell_joke():
     current_joke = random.choice(pool)
     joke_counter += 1
 
-    badge_label.config(text=f"JOKE #{joke_counter:02d}")
+    badge_label.config(text=f"JOKE #{joke_counter:02d}") # Display the joke number and its setup
     setup_label.config(text=current_joke["setup"], fg=INK)
+    # Reset the punchline section until the user reveals the answer
     punchline_label.config(text='Click "Show Punchline" to see the answer.', fg="#7A6C91")
     punchline_box.config(bg=CARD_ALT, highlightbackground=LAV)
-    punchline_btn.config(state="normal")
+     #Enable the buttons needed to continue
+    punchline_btn.config(state="normal") 
     next_btn.config(state="normal")
 
-    update_fav_button()
+    update_fav_button() # Update the favourite button for the new joke
 
 
-def show_punchline():
-    """Show the punchline below the setup."""
+def show_punchline():#Show the punchline below the setup.
 
-    if not current_joke:
+    if not current_joke: # Check that a joke has been selected
         return
 
-    punchline_label.config(text=current_joke["punchline"], fg=INK)
+# Display the punchline and change the card's appearance
     punchline_box.config(bg=MINT_BG, highlightbackground=MINT_FG)
+    punchline_label.config(text=current_joke["punchline"], fg=INK) 
+    # Disable the button after revealing the punchline
     punchline_btn.config(state="disabled")
 
     # Play the laughing sound when the punchline is revealed.
     laugh_sound.play()
 
 
-def toggle_favourite():
-    """Add or remove the current joke from favourites."""
+def toggle_favourite(): #Add or remove the current joke from favourites.
 
     if not current_joke:
         return
 
+# Remove the joke if it is already saved, otherwise add it
     if current_joke in favourites:
         favourites.remove(current_joke)
     else:
         favourites.append(current_joke)
 
-    update_fav_button()
+    update_fav_button() # Update the favourite button and cart count
 
 
-def refresh_cart():
-    """Reload the listbox inside the Favourite Cart frame."""
+def refresh_cart(): #Reload the listbox inside the Favourite Cart frame.
 
-    cart_listbox.delete(0, tk.END)
+    cart_listbox.delete(0, tk.END) # Clear the existing list before displaying the saved jokes
 
     # Display each saved joke in the listbox
     for i, item in enumerate(favourites, start=1):
         cart_listbox.insert(tk.END, f"{i}. {item['setup']}")
 
+# Update the saved joke count and reset the preview section
     cart_count_label.config(text=f"Saved Jokes: {len(favourites)}")
     cart_preview_setup.config(text="Select a joke from the list to view it.")
     cart_preview_punch.config(text="")
 
 
-def on_select_fav(event=None):
-    """Display the selected favourite joke."""
+def on_select_fav(event=None): #Display the selected favourite joke.
 
-    sel = cart_listbox.curselection()
+    sel = cart_listbox.curselection()  # Get the position of the selected joke in the listbox
 
+# Display the setup and punchline of the selected joke
     if sel:
         item = favourites[sel[0]]
         cart_preview_setup.config(text=item["setup"])
         cart_preview_punch.config(text=item["punchline"])
 
 
-def remove_fav():
-    """Remove the selected joke from favourites."""
+def remove_fav(): #Remove the selected joke from favourites.
 
-    sel = cart_listbox.curselection()
+    sel = cart_listbox.curselection() # Check whether the user has selected a joke
 
     if not sel:
         messagebox.showinfo("Select Joke", "Please pick a joke from the list first!")
         return
 
-    favourites.pop(sel[0])
+    favourites.pop(sel[0])  # Remove the selected joke from the favourites list
 
     update_fav_button()
     refresh_cart()
@@ -160,6 +160,7 @@ def remove_fav():
 root = tk.Tk()
 root.title("Alexa Tell Me a Joke")
 
+# Set the application icon using the image saved
 icon = tk.PhotoImage(file=os.path.join(BASE_DIR, "app.png"))
 root.iconphoto(True, icon)
 
@@ -202,12 +203,12 @@ open_cart_btn = tk.Button(
     font=("Segoe UI", 10, "bold"),
     bg=LAV,
     fg=INK,
-    relief="solid",
+    relief="solid", #a simple, visible border. 
     bd=2,
     padx=14,
     pady=6,
     cursor="hand2",
-    command=lambda: show_frame(cart_frame),
+    command=lambda: show_frame(cart_frame), #runs the function only when the user clicks on it
 )
 open_cart_btn.pack(side="left")
 
@@ -355,6 +356,7 @@ tk.Button(
     command=root.destroy,
 ).pack(side="right")
 
+# Create a separate frame to display all saved jokes
 cart_frame = tk.Frame(root, bg=BG, padx=36, pady=24)
 
 cart_top = tk.Frame(cart_frame, bg=BG)
@@ -389,8 +391,9 @@ cart_listbox = tk.Listbox(
     height=7,
 )
 cart_listbox.pack(fill="x", pady=(0, 12))
-cart_listbox.bind("<<ListboxSelect>>", on_select_fav)
+cart_listbox.bind("<<ListboxSelect>>", on_select_fav) # Call on_select_fav whenever the user selects a joke
 
+# Create a preview card for the selected favourite joke
 cart_preview = tk.Frame(
     cart_frame,
     bg=CARD_ALT,
@@ -442,6 +445,7 @@ tk.Button(
     command=remove_fav,
 ).pack(side="left", padx=(0, 10))
 
+# Button to return to the main joke screen
 tk.Button(
     cart_btns,
     text="← Back to Jokes",
@@ -464,7 +468,7 @@ except FileNotFoundError:
     root.destroy()
     raise SystemExit
 
-# Show the main joke screen
+# Show the main joke screen when the application starts
 show_frame(joke_frame)
 
 root.mainloop()
