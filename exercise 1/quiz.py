@@ -95,7 +95,7 @@ def load_animation(filename, width, height):
             rgba = frame.convert("RGBA")
             rgba.thumbnail((width, height), Image.Resampling.LANCZOS)
 
-            # Convert each frame into a Tkinter-compatible image and keep it in memory.
+            # Convert each frame into a Tkinter compatible image and keep it in memory.
             photo = ImageTk.PhotoImage(rgba)
 
             # Read how long this frame should appear; use 95 milliseconds if the GIF has no timing information.
@@ -107,7 +107,7 @@ def load_animation(filename, width, height):
         return []
 
 
-# Load the pictures used on the welcome, level-selection, and results screens.
+# Load the pictures used on the welcome, level selection, and results screens.
 calculator_img = load_image("calculator.png", 145, 145)
 books_img = load_image("books.png", 140, 140)
 trophy_img = load_image("trophy.png", 136, 136)
@@ -196,7 +196,7 @@ def arrange_canvas_layers():
         quiz_canvas.tag_raise(window_id)
 
 
-# Draw the notebook-style background. The optional event argument lets this function run after resizing.
+# Draw the notebook style background. The optional event argument lets this function run after resizing.
 def draw_notebook_background(_event=None):
     quiz_canvas.delete("corner_decor")
     quiz_canvas.delete("notebook_lines")
@@ -211,7 +211,7 @@ def draw_notebook_background(_event=None):
 
     quiz_canvas.create_line(74, 0, 74, canvas_h, fill=MARGIN_LINE, width=3, tags="notebook_lines")
 
-    # Draw the small formula card in the top-left corner of the background.
+    # Draw the small formula card in the top left corner of the background.
     quiz_canvas.create_rectangle(28, 28, 246, 142, fill=INK_OUTLINE, outline="", tags="corner_decor")
     quiz_canvas.create_rectangle(22, 22, 240, 136, fill=CARD_BG, outline=INK_OUTLINE, width=3, tags="corner_decor")
     quiz_canvas.create_text(131, 48, text="x² + y² = r²", fill=INK_OUTLINE, font=(FONT_DISPLAY, 13, "bold"), tags="corner_decor")
@@ -245,7 +245,7 @@ def draw_notebook_background(_event=None):
         quiz_canvas.create_rectangle(key_x1, key_y1, key_x1 + 25, key_y1 + 31, fill=key_fill, outline=INK_OUTLINE, width=2, tags="corner_decor")
         quiz_canvas.create_text(key_x1 + 12, key_y1 + 15, text=key, fill=INK_OUTLINE, font=(FONT_UI, 9, "bold"), tags="corner_decor")
 
-    # Draw an open notebook in the bottom-left corner of the background.
+    # Draw an open notebook in the bottom left corner of the background.
     book_x = 20
     book_y = canvas_h - 166
     quiz_canvas.create_rectangle(book_x + 5, book_y + 5, book_x + 205, book_y + 144, fill=INK_OUTLINE, outline="", tags="corner_decor")
@@ -262,7 +262,7 @@ def draw_notebook_background(_event=None):
     quiz_canvas.create_text(book_x + 149, book_y + 48, text="✦  π  ✦", fill=LAV_DARK, font=(FONT_DISPLAY, 12, "bold"), tags="corner_decor")
     quiz_canvas.create_text(book_x + 149, book_y + 88, text="PRACTICE", fill=INK_OUTLINE, font=(FONT_UI, 9, "bold"), tags="corner_decor")
 
-    # Draw the books and ribbon decoration in the bottom-right corner.
+    # Draw the books and ribbon decoration in the bottom right corner.
     stack_x = canvas_w - 214
     stack_y = canvas_h - 178
 
@@ -347,7 +347,7 @@ def update_background_motion():
     # These variables are shared with other functions so the animation timer can be tracked.
     global background_motion_timer, motion_tick
 
-    # Increase the animation step. This value is used to calculate the symbols' side-to-side movement.
+    # Increase the animation step. This value is used to calculate the symbols' side to  side movement.
     motion_tick += 1
 
     canvas_w = max(root.winfo_width(), 200)
@@ -357,10 +357,10 @@ def update_background_motion():
 
     # Update the position of every floating symbol.
     for item in floating_symbols:
-        # Sine creates a smooth back-and-forth movement instead of a sudden left-right jump.
+        # Sine creates a smooth back and forth movement instead of a sudden left right jump.
         sway = math.sin(motion_tick * 0.035 + item["phase"]) * 0.35
 
-        # Move the symbol using its normal speed plus the gentle side-to-side sway.
+        # Move the symbol using its normal speed plus the gentle side to side sway.
         quiz_canvas.move(item["id"], item["base_vx"] + sway, item["vy"])
 
         # Get the symbol's current canvas coordinates so we can check whether it has left the screen.
@@ -612,7 +612,7 @@ def show_hint():
     hint_used = True
     hint_button.config(state="disabled", text="💡 Hint Used")
 
-    # Give an addition-specific tip when the current question uses addition.
+    # Give an addition specific tip when the current question uses addition.
     if current_operation == "+":
         tip_text = f"Tip: Add the tens first, then units — around {round(correct_answer, -1) if abs(correct_answer) >= 10 else correct_answer}."
 
@@ -684,7 +684,7 @@ def check_answer():
         root.after(1350, show_next_question)
 
     else:
-        # Increase the failed-attempt count because the submitted answer was incorrect.
+        # Increase the failed attempt count because the submitted answer was incorrect.
         attempts += 1
 
         # After the first wrong answer, allow the user one final attempt.
@@ -705,7 +705,7 @@ def check_answer():
 
         # If the second attempt is also wrong, the user has used both available tries.
         else:
-            # Reset the correct-answer streak after two incorrect attempts.
+            # Reset the correct answer streak after two incorrect attempts.
             streak = 0
             streak_badge.config(text="✦ Streak: 0")
 
@@ -815,7 +815,7 @@ tk.Label(
     fg=INK_MUTED,
 ).pack(pady=(4, 18))
 
-# Place the welcome-screen content inside a bordered card to keep it grouped together.
+# Place the welcome screen content inside a bordered card to keep it grouped together.
 welcome_card = create_card(welcome_screen, padx=72, pady=40, border_px=4)
 welcome_card.pack()
 
@@ -886,7 +886,7 @@ tk.Label(
 
 tk.Label(
     level_screen,
-    text="Select a number range for your 10-question session.",
+    text="Select a number range for your quiz session.",
     font=(FONT_UI, 14),
     bg=BLUSH_BG,
     fg=INK_MUTED,
@@ -1191,7 +1191,7 @@ feedback_banner = tk.Label(
 )
 feedback_banner.pack(pady=(14, 0))
 
-# Pressing Enter runs the same answer-checking function as clicking the submit button.
+# Pressing Enter runs the same answer checking function as clicking the submit button.
 root.bind("<Return>", lambda _event: check_answer())
 
 
@@ -1274,7 +1274,7 @@ result_message.pack()
 result_btn_row = tk.Frame(results_screen, bg=BLUSH_BG)
 result_btn_row.pack(pady=(18, 0))
 
-# Start a new quiz by returning to the difficulty-selection screen.
+# Start a new quiz by returning to the difficulty selection screen.
 create_button(
     result_btn_row,
     text="PLAY AGAIN",

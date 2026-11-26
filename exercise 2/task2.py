@@ -28,7 +28,7 @@ def load_jokes(): # Open the JSON file in read mode
     return jokes
 
 
-BG = "#FF8F82"
+BG = "#B9A8D0"
 SURFACE = "#261F36"
 CARD = "#FFF9F5"
 CARD_ALT = "#FDEBE3"
