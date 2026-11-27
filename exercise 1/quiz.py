@@ -6,9 +6,14 @@ import random
 import math
 # To find image files in the same folder as this Python program.
 from pathlib import Path
+import pygame 
 
 # Find the folder containing this Python file so image paths work even if the program is run elsewhere.
 IMAGE_FOLDER = Path(__file__).resolve().parent
+
+# This is to initialise and play background music throughout the session.
+pygame.mixer.init()
+pygame.mixer.music.load(IMAGE_FOLDER / "music.mp3")
 
 root = tk.Tk()
 root.title("Maths Quiz")
@@ -614,7 +619,7 @@ def show_hint():
 
     # Give an addition specific tip when the current question uses addition.
     if current_operation == "+":
-        tip_text = f"Tip: Add the tens first, then units — around {round(correct_answer, -1) if abs(correct_answer) >= 10 else correct_answer}."
+        tip_text = f"Tip: Add the tens first, then units around {round(correct_answer, -1) if abs(correct_answer) >= 10 else correct_answer}."
 
     # For subtraction, remind the user to find the difference and pay attention to the sign.
     else:
@@ -694,7 +699,7 @@ def check_answer():
             entry_wrapper.config(highlightbackground=ERROR_FG)
 
             feedback_banner.config(
-                text="Not quite — one try remaining.",
+                text="Not quite! one try remaining.",
                 bg=ERROR_BG,
                 fg=ERROR_FG,
             )
@@ -719,7 +724,7 @@ def check_answer():
 
             # Tell the user the correct answer after both attempts have been used.
             feedback_banner.config(
-                text=f"Out of tries — the answer was {correct_answer}.",
+                text=f"Out of tries :( the answer was {correct_answer}.",
                 bg=ERROR_BG,
                 fg=ERROR_FG,
             )
@@ -763,7 +768,7 @@ def show_results():
     elif score >= 50:
         grade, message, badge_bg, badge_fg = "D", "Fair start! Ready for another round?", BOW_GOLD, GOLD_DARK
     else:
-        grade, message, badge_bg, badge_fg = "F", "Keep practising — try another round!", ERROR_BG, ERROR_FG
+        grade, message, badge_bg, badge_fg = "F", "Keep practising, try another round!", ERROR_BG, ERROR_FG
 
     # Start the animated score at zero and count up to the score earned in the quiz.
     animate_score_counter(score, 0)
@@ -959,17 +964,20 @@ for col_index, (title, desc, tag, accent, btn_bg, btn_hover, tier_args) in enume
 # Add a back button so the user can return to the welcome screen.
 tk.Button(
     level_screen,
-    text="← Back to Welcome",
-    font=(FONT_UI, 13, "bold"),
+    text="Back to Welcome",
+    font=(FONT_UI, 11, "bold"),
     bg=BLUSH_BG,
-    fg=INK_OUTLINE,
-    activebackground=BLUSH_BG,
-    activeforeground=ROSE_DARK,
-    relief="flat",
+    fg=INK_MUTED,
+    activebackground=ROSE_BTN,
+    activeforeground=INK_OUTLINE,
+    relief="solid",
+    bd=1,
+    highlightthickness=0,
+    padx=14,
+    pady=5,
     cursor="hand2",
     command=lambda: show_screen(welcome_screen),
-).pack(pady=(22, 0))
-
+).pack(pady=(18, 0))
 
 # Build the main quiz screen, including progress, the equation, answer box, and feedback.
 
@@ -1190,6 +1198,22 @@ feedback_banner = tk.Label(
     highlightthickness=2,
 )
 feedback_banner.pack(pady=(14, 0))
+tk.Button(
+    quiz_screen,
+    text="Back to Welcome",
+    font=(FONT_UI, 11, "bold"),
+    bg=BLUSH_BG,
+    fg=INK_MUTED,
+    activebackground=ROSE_BTN,
+    activeforeground=INK_OUTLINE,
+    relief="solid",
+    bd=1,
+    highlightthickness=0,
+    padx=14,
+    pady=5,
+    cursor="hand2",
+    command=lambda: show_screen(welcome_screen),
+).pack(pady=(18, 0))
 
 # Pressing Enter runs the same answer checking function as clicking the submit button.
 root.bind("<Return>", lambda _event: check_answer())
@@ -1215,7 +1239,7 @@ confetti_label.pack(pady=2)
 
 # Group the final score and grade information inside a central results card.
 result_card = create_card(results_screen, padx=72, pady=34, border_px=4)
-result_card.pack(pady=10)
+result_card.pack(pady=6)
 
 tk.Label(
     result_card,
@@ -1269,6 +1293,23 @@ result_message = tk.Label(
     fg=INK_OUTLINE,
 )
 result_message.pack()
+# Return to the welcome screen.
+tk.Button(
+    results_screen,
+    text="Back to Welcome",
+    font=(FONT_UI, 11, "bold"),
+    bg=BLUSH_BG,
+    fg=INK_MUTED,
+    activebackground=ROSE_BTN,
+    activeforeground=INK_OUTLINE,
+    relief="solid",
+    bd=1,
+    highlightthickness=0,
+    padx=14,
+    pady=5,
+    cursor="hand2",
+    command=lambda: show_screen(welcome_screen),
+).pack(pady=(6, 0))
 
 # Keep the Play Again and Exit buttons together in one row.
 result_btn_row = tk.Frame(results_screen, bg=BLUSH_BG)
@@ -1281,9 +1322,9 @@ create_button(
     bg=ROSE_BTN,
     hover_bg=ROSE_HOVER,
     fg=INK_OUTLINE,
-    width=20,
-    pady=12,
-    font_size=13,
+    width=18,
+    pady=9,
+    font_size=12,
     command=play_again,
 ).pack(side="left", padx=10)
 
@@ -1294,13 +1335,11 @@ create_button(
     bg=LAV_BTN,
     hover_bg=LAV_HOVER,
     fg=INK_OUTLINE,
-    width=14,
-    pady=12,
-    font_size=13,
+    width=12,
+    pady=9,
+    font_size=12,
     command=root.destroy,
 ).pack(side="left", padx=10)
-
-
 # Draw the background, show the first screen, start background movement, and run the Tkinter event loop.
 
 # Draw the notebook background before the welcome screen appears.
@@ -1314,5 +1353,8 @@ show_screen(welcome_screen)
 
 # Start the repeating background animation.
 update_background_motion()
+
+# Start background music only after the interface loads.
+root.after(1000, lambda: pygame.mixer.music.play(-1))
 
 root.mainloop()

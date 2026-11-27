@@ -9,9 +9,12 @@ import pygame
 # Get the folder where this Python file is saved
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 pygame.mixer.init()
+# Load background music.
+pygame.mixer.music.load(os.path.join(BASE_DIR, "song.mp3"))
 # Load the laughing sound effect.
 laugh_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "laugh.mp3"))
 whoosh_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "whoosh.mp3"))
+
 
 # Set the path for the jokes JSON file
 JOKES_JSON = os.path.join(BASE_DIR, "jokes.json")
@@ -44,8 +47,7 @@ CORAL_BG = "#FFE3E3"
 CORAL_FG = "#9B2C2C"
 
 
-def show_frame(target):
-    """Hide all frames and show only the selected one."""
+def show_frame(target): #Hide all frames and show only the selected one.
 
     joke_frame.pack_forget()
     cart_frame.pack_forget()
@@ -55,8 +57,7 @@ def show_frame(target):
     if target == cart_frame:
         refresh_cart()
 
-def update_fav_button():
-    """Update the favourite button and cart count."""
+def update_fav_button(): #Update the favourite button and cart count.
 
     if current_joke and current_joke in favourites:
         fav_btn.config(text="♥ Favourited", bg=GOLD_BG, fg=GOLD_FG)
@@ -90,8 +91,7 @@ def tell_joke():#Pick a random joke and show its setup.
     update_fav_button()
 
 
-def show_punchline():
-    """Show the punchline below the setup."""
+def show_punchline(): #Show the punchline below the setup.
 
     if not current_joke:
         return
@@ -104,8 +104,7 @@ def show_punchline():
     laugh_sound.play()
 
 
-def toggle_favourite():
-    """Add or remove the current joke from favourites."""
+def toggle_favourite():#Add or remove the current joke from favourites.
 
     if not current_joke:
         return
@@ -118,8 +117,7 @@ def toggle_favourite():
     update_fav_button()
 
 
-def refresh_cart():
-    """Reload the listbox inside the Favourite Cart frame."""
+def refresh_cart():#Reload the listbox inside the Favourite Cart frame.
 
     cart_listbox.delete(0, tk.END)
 
@@ -132,8 +130,7 @@ def refresh_cart():
     cart_preview_punch.config(text="")
 
 
-def on_select_fav(event=None):
-    """Display the selected favourite joke."""
+def on_select_fav(event=None):#Display the selected favourite joke.
 
     sel = cart_listbox.curselection()
 
@@ -143,8 +140,7 @@ def on_select_fav(event=None):
         cart_preview_punch.config(text=item["punchline"])
 
 
-def remove_fav():
-    """Remove the selected joke from favourites."""
+def remove_fav():#Remove the selected joke from favourites.
 
     sel = cart_listbox.curselection()
 
@@ -466,5 +462,8 @@ except FileNotFoundError:
 
 # Show the main joke screen
 show_frame(joke_frame)
+
+# Start background music on loop.
+pygame.mixer.music.play(-1)
 
 root.mainloop()
