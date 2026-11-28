@@ -589,7 +589,7 @@ def search_student():
         output.insert(END, "No student found.")
 
 
-# Display the student with the highest mark
+# Display the the highest mark
 
 def highest_student():
 
@@ -658,7 +658,7 @@ def lowest_student():
     # Display the student who achieved the lowest overall mark.
     output.insert(
         END,
-        "STUDENT With Lowest Mark\n\n",
+        "Student With Lowest Mark\n\n",
         "section_heading"
     )
 
@@ -685,7 +685,7 @@ def sort_students():
     # Add a label explaining what the sorting buttons will do.
     Label(
         action_frame,
-        text="SORT BY OVERALL MARK",
+        text="Sort By Overall Mark",
         bg=LIGHT,
         fg=NAVY,
         font=("Arial", 10, "bold")
@@ -693,31 +693,35 @@ def sort_students():
 
     # Create a button to arrange students from the lowest mark to the highest.
     Button(
-        action_frame,
-        text="↑  Ascending Order",
-        bg=NAVY,
-        fg=WHITE,
-        font=FONT_BUTTON,
-        padx=16,
-        pady=9,
-        relief="flat",
-        cursor="hand2",
-        command=lambda: show_sorted("ascending")
-    ).pack(side=LEFT, padx=6)
+    action_frame,
+    image=ascending_icon,
+    text="Ascending Order",
+    compound=LEFT,
+    bg=NAVY,
+    fg=WHITE,
+    font=FONT_BUTTON,
+    padx=14,
+    pady=9,
+    relief="flat",
+    cursor="hand2",
+    command=lambda: show_sorted("ascending")
+).pack(side=LEFT, padx=6)
 
     # Create a button to arrange students from the highest mark to the lowest.
     Button(
-        action_frame,
-        text="↓  Descending Order",
-        bg=PURPLE,
-        fg=WHITE,
-        font=FONT_BUTTON,
-        padx=16,
-        pady=9,
-        relief="flat",
-        cursor="hand2",
-        command=lambda: show_sorted("descending")
-    ).pack(side=LEFT, padx=6)
+    action_frame,
+    image=descending_icon,
+    text="Descending Order",
+    compound=LEFT,
+    bg=PURPLE,
+    fg=WHITE,
+    font=FONT_BUTTON,
+    padx=14,
+    pady=9,
+    relief="flat",
+    cursor="hand2",
+    command=lambda: show_sorted("descending")
+).pack(side=LEFT, padx=6)
 
     output.insert(
         END,
@@ -1507,6 +1511,10 @@ sort_icon = PhotoImage(file=os.path.join(folder, "sort.png"))
 add_icon = PhotoImage(file=os.path.join(folder, "add.png"))
 delete_icon = PhotoImage(file=os.path.join(folder, "delete.png"))
 update_icon = PhotoImage(file=os.path.join(folder, "update.png"))
+ascending_icon = PhotoImage(file=os.path.join(folder, "ascending.png"))
+ascending_icon = ascending_icon.subsample(22, 22)
+descending_icon = PhotoImage(file=os.path.join(folder, "descending.png"))
+descending_icon = descending_icon.subsample(22, 22)
 
 # Load the main application icon and set it as the window icon.
 app_icon = PhotoImage(file=os.path.join(folder, "icon.png"))
