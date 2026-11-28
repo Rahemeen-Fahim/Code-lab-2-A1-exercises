@@ -48,15 +48,6 @@ def load_students():
     # Clear the list first so existing records are not duplicated when reloaded.
     students.clear()
 
-    # Display file information in the console to help check that the correct
-    # JSON file and folder are being used.
-    print("\n========== FILE CHECK ==========")
-    print("Python file:", os.path.abspath(__file__))
-    print("Folder:", folder)
-    print("JSON path:", file_name)
-    print("JSON exists:", os.path.isfile(file_name))
-    print("Files in folder:", os.listdir(folder))
-
     # Stop loading if the JSON file cannot be found.
     if not os.path.isfile(file_name):
         print("JSON FILE NOT FOUND!")
@@ -65,8 +56,6 @@ def load_students():
     # Open the JSON file in read mode and load its saved information.
     with open(file_name, "r") as file:
         data = json.load(file)
-
-    print("JSON keys:", data.keys())
 
     # Take each student's details from the JSON file and place them into
     # a list in the same order used by the rest of the program.
@@ -80,11 +69,6 @@ def load_students():
             student["cw3"],
             student["exam"]
         ])
-
-    # Show how many student records were successfully loaded.
-    print("TOTAL STUDENTS LOADED:", len(students))
-    print("================================\n")
-
 
 def save_students():
 
@@ -552,7 +536,7 @@ def view_all():
         return
 
     # Display all student information followed by the class performance summary.
-    output.insert(END, "ALL STUDENT RECORDS\n\n", "section_heading")
+    output.insert(END, "All Student Records\n\n", "section_heading")
 
     display_table(students)
     display_summary()
@@ -636,7 +620,7 @@ def highest_student():
     # Display the student who achieved the highest overall mark.
     output.insert(
         END,
-        "STUDENT WITH HIGHEST MARK\n\n",
+        "Student With Highest Mark\n\n",
         "section_heading"
     )
 
@@ -674,7 +658,7 @@ def lowest_student():
     # Display the student who achieved the lowest overall mark.
     output.insert(
         END,
-        "STUDENT WITH LOWEST MARK\n\n",
+        "STUDENT With Lowest Mark\n\n",
         "section_heading"
     )
 
@@ -1098,7 +1082,7 @@ def delete_student():
     ).pack(side=LEFT, padx=10)
 
     # Display the current records so the user can review them before deleting.
-    output.insert(END, "CURRENT STUDENT RECORDS\n\n", "section_heading")
+    output.insert(END, "Current Student Records\n\n", "section_heading")
     display_table(students)
 
 
@@ -1177,7 +1161,7 @@ def update_student():
     # Create the button that searches for the student to update.
     Button(
         action_frame,
-        text="Find Student",
+        text="Update Student",
         bg=PURPLE,
         fg=WHITE,
         font=FONT_BUTTON,
@@ -1189,7 +1173,7 @@ def update_student():
     ).pack(side=LEFT, padx=10)
 
     # Display the existing records while the user selects a student.
-    output.insert(END, "CURRENT STUDENT RECORDS\n\n", "section_heading")
+    output.insert(END, "Current Student Records\n\n", "section_heading")
     display_table(students)
 
 
@@ -1516,7 +1500,7 @@ root.config(bg=LIGHT)
 # Load each image from the application folder so it can be used in the sidebar.
 home_icon = PhotoImage(file=os.path.join(folder, "home.png"))
 student_icon = PhotoImage(file=os.path.join(folder, "student.png"))
-search_icon = PhotoImage(file=os.path.join(folder, "search.png"))
+search_nav_icon = PhotoImage(file=os.path.join(folder, "search.png"))
 highest_icon = PhotoImage(file=os.path.join(folder, "highest.png"))
 lowest_icon = PhotoImage(file=os.path.join(folder, "lowest.png"))
 sort_icon = PhotoImage(file=os.path.join(folder, "sort.png"))
@@ -1600,7 +1584,7 @@ def create_button(text, command, icon):
 # Create the main navigation buttons and connect each one to its function.
 create_button("Home", home, home_icon)
 create_button("All Students", view_all, student_icon)
-create_button("Find Student", view_individual, search_icon)
+create_button("Find Student", view_individual, search_nav_icon)
 create_button("Highest Mark", highest_student, highest_icon)
 create_button("Lowest Mark", lowest_student, lowest_icon)
 
@@ -1781,10 +1765,20 @@ search_frame = Frame(
 
 search_frame.pack(fill=X, pady=(0, 10))
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+quick_search_icon = PhotoImage(file=os.path.join(BASE_DIR, "search.png"))
+quick_search_icon = quick_search_icon.subsample(2, 2)
+
 # Display the quick search label beside the entry box.
 Label(
     search_frame,
-    text="⌕  QUICK SEARCH",
+    image=quick_search_icon,
+    bg=WHITE
+).pack(side=LEFT, padx=(0, 5))
+
+Label(
+    search_frame,
+    text="QUICK SEARCH",
     bg=WHITE,
     fg=NAVY,
     font=("Arial", 10, "bold")
@@ -1804,7 +1798,7 @@ search_entry.pack(side=LEFT, padx=5, ipady=5)
 # Run the search function when the Search button is clicked.
 Button(
     search_frame,
-    text="Search  →",
+    text="Search",
     bg=PURPLE,
     fg=WHITE,
     font=FONT_BUTTON,
@@ -1871,7 +1865,7 @@ records_heading_area.pack(side=LEFT, fill=X, expand=True)
 # Display the main heading for the student records panel.
 Label(
     records_heading_area,
-    text="STUDENT RECORDS",
+    text="Student Records",
     bg=PALE_PURPLE,
     fg=NAVY,
     font=("Arial", 14, "bold")
@@ -1885,17 +1879,6 @@ Label(
     fg=GREY,
     font=("Arial", 10)
 ).pack(anchor="w", pady=(3, 0))
-
-# Add a small label on the right to identify the records database.
-Label(
-    records_header,
-    text="ACADEMIC DATABASE",
-    bg=PURPLE,
-    fg=WHITE,
-    font=("Arial", 9, "bold"),
-    padx=12,
-    pady=7
-).pack(side=RIGHT)
 
 # Add a thin divider underneath the records heading.
 Frame(
@@ -2075,11 +2058,6 @@ Frame(
 
 # Display the home dashboard when the program first opens.
 home()
-
-# Print the JSON folder and file details in the console for checking.
-print("Folder:", folder)
-print("JSON file exists:", os.path.exists(file_name))
-print("Files in exercise 3:", os.listdir(folder))
 
 # Keep the application window open and listen for user actions.
 root.mainloop()
